@@ -1,15 +1,15 @@
-import { InsertHabitRepository } from '@/data/protocols/db/habit/insert-habit-repository'
-import { Habit } from '@/domain/models/habits'
-import { CreateHabit, CreateHabitParams } from '@/domain/usecases/habits/create-habit'
+import { FindHabitByIdRepository, InsertHabitRepository, CreateHabit, CreateHabitParams, HabitModel } from './db-create-habit-protocols'
 
 export class DbCreateHabit implements CreateHabit {
   constructor (
-    private readonly insertHabitRepository: InsertHabitRepository
+    private readonly insertHabitRepository: InsertHabitRepository,
+    private readonly findHabitByIdRepository: FindHabitByIdRepository
   ) {}
 
-  async create (createHabitParams: CreateHabitParams): Promise<Habit> {
-    await this.insertHabitRepository.insert(createHabitParams)
+  async create (createHabitParams: CreateHabitParams): Promise<HabitModel> {
+    const habitId = await this.insertHabitRepository.insert(createHabitParams)
+    await this.findHabitByIdRepository.findById(habitId)
 
-    return null as unknown as Habit
+    return null as unknown as HabitModel
   }
 }

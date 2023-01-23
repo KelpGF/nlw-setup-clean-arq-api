@@ -1,4 +1,4 @@
-export interface Habit {
+export interface HabitModel {
   id: string
   title: string
   weekDays: number[]

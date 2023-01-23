@@ -1,4 +1,4 @@
-import { Habit } from '@/domain/models/habits'
+import { HabitModel } from '@/domain/models/habits'
 
 export type CreateHabitParams = {
   title: string
@@ -6,5 +6,5 @@ export type CreateHabitParams = {
 }
 
 export interface CreateHabit {
-  create: (createHabitParams: CreateHabitParams) => Promise<Habit>
+  create: (createHabitParams: CreateHabitParams) => Promise<HabitModel>
 }
