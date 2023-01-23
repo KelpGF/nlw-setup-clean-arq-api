@@ -2,6 +2,7 @@ import { mockFindHabitByIdRepository, mockInsertHabitRepository } from '@/data/t
 import { mockCreateHabitParams, mockHabitModel } from '@/domain/tests/mock-habit'
 import { InsertHabitRepository, FindHabitByIdRepository } from './db-create-habit-protocols'
 import { DbCreateHabit } from './db-create-habit'
+import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: DbCreateHabit
@@ -18,6 +19,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbCreateHabit UseCase', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('Should call InsertHabitRepository with correct values', async () => {
     const { sut, insertHabitRepositoryStub } = makeSut()
     const createSpy = jest.spyOn(insertHabitRepositoryStub, 'insert')
@@ -45,5 +54,11 @@ describe('DbCreateHabit UseCase', () => {
     jest.spyOn(findHabitByIdRepositoryStub, 'findById').mockRejectedValueOnce(new Error())
     const promise = sut.create(mockCreateHabitParams())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return a Habit on success', async () => {
+    const { sut } = makeSut()
+    const habit = await sut.create(mockCreateHabitParams())
+    expect(habit).toEqual(mockHabitModel())
   })
 })
