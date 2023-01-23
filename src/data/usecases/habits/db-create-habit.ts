@@ -8,8 +8,7 @@ export class DbCreateHabit implements CreateHabit {
 
   async create (createHabitParams: CreateHabitParams): Promise<HabitModel> {
     const habitId = await this.insertHabitRepository.insert(createHabitParams)
-    await this.findHabitByIdRepository.findById(habitId)
-
-    return null as unknown as HabitModel
+    const habit = await this.findHabitByIdRepository.findById(habitId)
+    return habit
   }
 }
