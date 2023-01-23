@@ -1,18 +1,20 @@
-import { InsertHabitRepository } from '@/data/protocols/db/habit/insert-habit-repository'
-import { mockInsertHabitRepository } from '@/data/tests/mock-habit'
-import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
+import { mockFindHabitByIdRepository, mockInsertHabitRepository } from '@/data/tests/mock-habit'
+import { mockCreateHabitParams, mockHabitModel } from '@/domain/tests/mock-habit'
+import { InsertHabitRepository, FindHabitByIdRepository } from './db-create-habit-protocols'
 import { DbCreateHabit } from './db-create-habit'
 
 type SutTypes = {
   sut: DbCreateHabit
   insertHabitRepositoryStub: InsertHabitRepository
+  findHabitByIdRepositoryStub: FindHabitByIdRepository
 }
 
 const makeSut = (): SutTypes => {
   const insertHabitRepositoryStub = mockInsertHabitRepository()
-  const sut = new DbCreateHabit(insertHabitRepositoryStub)
+  const findHabitByIdRepositoryStub = mockFindHabitByIdRepository()
+  const sut = new DbCreateHabit(insertHabitRepositoryStub, findHabitByIdRepositoryStub)
 
-  return { sut, insertHabitRepositoryStub }
+  return { sut, insertHabitRepositoryStub, findHabitByIdRepositoryStub }
 }
 
 describe('DbCreateHabit UseCase', () => {
@@ -29,5 +31,12 @@ describe('DbCreateHabit UseCase', () => {
     jest.spyOn(insertHabitRepositoryStub, 'insert').mockRejectedValueOnce(new Error())
     const promise = sut.create(mockCreateHabitParams())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should call FindHabitByIdRepository with correct id', async () => {
+    const { sut, findHabitByIdRepositoryStub } = makeSut()
+    const findByIdSpy = jest.spyOn(findHabitByIdRepositoryStub, 'findById')
+    await sut.create(mockCreateHabitParams())
+    expect(findByIdSpy).toHaveBeenCalledWith(mockHabitModel().id)
   })
 })
