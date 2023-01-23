@@ -23,4 +23,11 @@ describe('DbCreateHabit UseCase', () => {
     await sut.create(createHabitParams)
     expect(createSpy).toHaveBeenCalledWith(createHabitParams)
   })
+
+  test('Should throw if InsertHabitRepository throws', async () => {
+    const { sut, insertHabitRepositoryStub } = makeSut()
+    jest.spyOn(insertHabitRepositoryStub, 'insert').mockRejectedValueOnce(new Error())
+    const promise = sut.create(mockCreateHabitParams())
+    await expect(promise).rejects.toThrow()
+  })
 })
