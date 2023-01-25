@@ -1,0 +1,4 @@
+CREATE TABLE days (
+    id varchar(255) NOT NULL PRIMARY KEY,
+    date DATETIME NOT NULL
+);
