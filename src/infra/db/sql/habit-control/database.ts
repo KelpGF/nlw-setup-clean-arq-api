@@ -15,6 +15,10 @@ export const makeTables = (sqlHelper: SqlHelper): void => {
     title: DataTypes.STRING,
     created_at: DataTypes.STRING
   })
+  sqlHelper.defineTable('habit_week_days', {
+    habit_id: DataTypes.INTEGER,
+    week_day: DataTypes.INTEGER
+  })
 }
 
 makeTables(dbHabit)

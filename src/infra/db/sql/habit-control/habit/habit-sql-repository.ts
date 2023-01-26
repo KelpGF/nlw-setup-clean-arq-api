@@ -6,8 +6,10 @@ export class HabitSqlRepository implements InsertHabitRepository, FindHabitByIdR
 
   async insert (insertHabitParams: CreateHabitParams): Promise<string> {
     const habitTable = await this.database.getTable('habits')
-    const result = await habitTable.create({ title: insertHabitParams.title })
-    return String(result.id)
+    const habitWeekDaysTable = await this.database.getTable('habit_week_days')
+    const { id: habitId } = await habitTable.create({ title: insertHabitParams.title })
+    await Promise.all(insertHabitParams.weekDays.map((weekDay) => habitWeekDaysTable.create({ habit_id: habitId, week_day: weekDay }))) // eslint-disable-line
+    return String(habitId)
   }
 
   async findById (habitId: string): Promise<HabitModel> {
