@@ -9,6 +9,8 @@ mysql -u"root" -p"$MYSQL_ROOT_PASSWORD" \
 mysql -u"root" -p"$MYSQL_ROOT_PASSWORD" \
 --execute="CREATE TABLE test.test (id int);"
 
+echo ""
+
 for i in {30..0}; do
 			if echo 'SELECT 1' | mysql -u"root" -p"$MYSQL_ROOT_PASSWORD" &> /dev/null; then
 				break
