@@ -34,13 +34,16 @@ describe('Habit Sql Repository', () => {
     await sqlDB.disconnect()
   })
 
-  test('Should return a habit on findById success', async () => {
+  test('Should return a habit model on findById success', async () => {
     const sut = makeSut()
-    const { id: habitId } = await habitTable.create({ title: mockCreateHabitParams().title })
+    const createHabitParams = mockCreateHabitParams()
+    const habitId = await sut.insert(createHabitParams)
     const habit = await sut.findById(habitId)
     expect(habit).toBeTruthy()
     expect(habit.id).toBeTruthy()
     expect(habit.title).toBe(mockCreateHabitParams().title)
+    expect(habit.weekDays.length).toBe(createHabitParams.weekDays.length)
+    expect(habit.weekDays).toEqual(createHabitParams.weekDays)
   })
 
   test('Should create a habit and yours week days on insert success', async () => {
