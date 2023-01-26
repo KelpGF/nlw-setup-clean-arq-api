@@ -1,5 +1,5 @@
 import { ModelStatic } from 'sequelize'
-import { SqlHelper } from '../../helpers/sql-helper'
+import { SqlHelper } from '@/infra/db/sql/helpers/sql-helper'
 import { makeTables } from '../database'
 import { HabitSqlRepository } from './habit-sql-repository'
 
