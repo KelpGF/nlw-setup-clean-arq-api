@@ -1,5 +1,5 @@
 import { ModelStatic } from 'sequelize'
-import { SqlHelper } from '../../helpers/sql-connection'
+import { SqlHelper } from '../../helpers/sql-helper'
 import { makeTables } from '../database'
 import { HabitSqlRepository } from './habit-sql-repository'
 
@@ -20,7 +20,7 @@ describe('Habit Sql Repository', () => {
   })
 
   beforeEach(async () => {
-    habitTable = sqlDB.getTable('habits')
+    habitTable = await sqlDB.getTable('habits')
     await habitTable.destroy({ where: {} })
   })
 
