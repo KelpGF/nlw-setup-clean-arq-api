@@ -6,7 +6,9 @@ export class AddHabitController implements Controller<HabitModel> {
 
   async handle (request: ControllerRequest<CreateHabitParams>) {
     const title = request.body?.title
+    const weekDays = request.body?.weekDays
     if (!title) return badRequest(new MissingParamError('title'))
+    if (!weekDays) return badRequest(new MissingParamError('weekDays'))
 
     const habit = await this.createHabit.create(request.body as CreateHabitParams)
     return success<HabitModel>(habit)
