@@ -1,10 +1,10 @@
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
-import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, ControllerRequest, badRequest, serverError } from './add-habit-controller-protocols'
+import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, badRequest, serverError } from './add-habit-controller-protocols'
 
 export class AddHabitController implements Controller<HabitModel> {
   constructor (private readonly createHabit: CreateHabit) {}
 
-  async handle (request: ControllerRequest<CreateHabitParams>) {
+  async handle (request: Controller.Request<CreateHabitParams>) {
     try {
       const requiredFields = ['title', 'weekDays']
       for (const field of requiredFields) {

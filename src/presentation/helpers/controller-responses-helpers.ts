@@ -1,22 +1,22 @@
 import { ServerError } from '@/presentation/errors/server-error'
-import { ControllerResponse } from '@/presentation/protocols/dtos'
+import { Controller } from '../protocols/controller'
 import { ControllerResponsesCodeEnum } from './controller-responses-codes-enum'
 
-export function success<T> (body: T): ControllerResponse<T> {
+export function success<T> (body: T): Controller.Response<T> {
   return {
     body,
     code: ControllerResponsesCodeEnum.SUCCESS
   }
 }
 
-export function badRequest (error: Error): ControllerResponse<Error> {
+export function badRequest (error: Error): Controller.Response<Error> {
   return {
     body: error,
     code: ControllerResponsesCodeEnum.BAD_REQUEST
   }
 }
 
-export function serverError (error: Error): ControllerResponse<Error> {
+export function serverError (error: Error): Controller.Response<Error> {
   return {
     body: new ServerError(String(error.stack)),
     code: ControllerResponsesCodeEnum.BAD_REQUEST
