@@ -2,7 +2,7 @@ import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
 import { mockCreateHabit } from '@/presentation/tests/mock-habit'
 import { AddHabitController } from './add-habit-controller'
-import { badRequest, ControllerRequest, CreateHabit, CreateHabitParams } from './add-habit-controller-protocols'
+import { badRequest, ControllerRequest, CreateHabit, CreateHabitParams, serverError } from './add-habit-controller-protocols'
 
 type SutTypes = {
   sut: AddHabitController
@@ -38,5 +38,12 @@ describe('CreateHabit Controller', () => {
     const controllerRequest = mockControllerRequest()
     await sut.handle(controllerRequest)
     expect(createSpy).toHaveBeenCalledWith(controllerRequest.body)
+  })
+
+  test('Should return a server error if CreateHabitUseCase throws', async () => {
+    const { sut, createHabitStub } = makeSut()
+    jest.spyOn(createHabitStub, 'create').mockRejectedValueOnce(new Error())
+    const response = await sut.handle(mockControllerRequest())
+    expect(response).toEqual(serverError(new Error()))
   })
 })
