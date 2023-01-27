@@ -1,17 +1,17 @@
 import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
 import { mockCreateHabit } from '@/presentation/tests/mock-habit'
-import { CreateHabitController } from './register-habit-controller'
-import { badRequest, ControllerRequest, CreateHabit, CreateHabitParams } from './register-habit-controller-protocols'
+import { AddHabitController } from './add-habit-controller'
+import { badRequest, ControllerRequest, CreateHabit, CreateHabitParams } from './add-habit-controller-protocols'
 
 type SutTypes = {
-  sut: CreateHabitController
+  sut: AddHabitController
   createHabitStub: CreateHabit
 }
 
 const makeSut = (): SutTypes => {
   const createHabitStub = mockCreateHabit()
-  const sut = new CreateHabitController(createHabitStub)
+  const sut = new AddHabitController(createHabitStub)
   return { sut, createHabitStub }
 }
 

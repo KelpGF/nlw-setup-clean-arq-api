@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint 'src/**/*' --fix --no-error-on-unmatched-pattern",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:ci": "npm test -- --coverage"

@@ -1,7 +1,7 @@
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
-import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, ControllerRequest, badRequest } from './register-habit-controller-protocols'
+import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, ControllerRequest, badRequest } from './add-habit-controller-protocols'
 
-export class CreateHabitController implements Controller<HabitModel> {
+export class AddHabitController implements Controller<HabitModel> {
   constructor (private readonly createHabit: CreateHabit) {}
 
   async handle (request: ControllerRequest<CreateHabitParams>) {
