@@ -26,6 +26,12 @@ describe('CreateHabit Controller', () => {
     expect(response).toEqual(badRequest(new MissingParamError('title')))
   })
 
+  test('Should return a bad request if no weekDays provided', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle({ body: { title: 'any_title', weekDays: undefined as unknown as number[] } })
+    expect(response).toEqual(badRequest(new MissingParamError('weekDays')))
+  })
+
   test('Should call CreateHabitUseCase with correct values', async () => {
     const { sut, createHabitStub } = makeSut()
     const createSpy = jest.spyOn(createHabitStub, 'create')
