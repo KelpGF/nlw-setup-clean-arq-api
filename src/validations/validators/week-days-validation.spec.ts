@@ -40,4 +40,10 @@ describe('WeekDays Validation', () => {
     const error = sut.validate(makeInput())
     expect(error).toEqual(new InvalidParamError('weekDays'))
   })
+
+  test('Should return null if succeeds', () => {
+    const { sut } = makeSut()
+    const error = sut.validate(makeInput())
+    expect(error).toBeNull()
+  })
 })
