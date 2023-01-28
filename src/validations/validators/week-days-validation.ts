@@ -6,7 +6,12 @@ export class WeekDaysValidation implements Validation<Record<any, number[]>> {
   constructor (private readonly weekDaysValidator: WeekDaysValidator, private readonly fieldName: string) {}
 
   validate (input: Record<any, number[]>): Error | null {
-    const isValid = this.weekDaysValidator.isValid(input[this.fieldName])
-    return isValid ? null : new InvalidParamError(this.fieldName)
+    const error = new InvalidParamError(this.fieldName)
+    try {
+      const isValid = this.weekDaysValidator.isValid(input[this.fieldName])
+      return isValid ? null : error
+    } catch {
+      return error
+    }
   }
 }
