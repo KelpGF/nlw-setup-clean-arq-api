@@ -1,5 +1,4 @@
-import { Validation } from '@/presentation/protocols/validation'
-import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, badRequest, serverError } from './add-habit-controller-protocols'
+import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, badRequest, serverError, Validation } from './add-habit-controller-protocols'
 
 export class AddHabitController implements Controller<HabitModel> {
   constructor (

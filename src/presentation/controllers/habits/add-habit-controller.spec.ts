@@ -1,10 +1,10 @@
 import { mockCreateHabitParams, mockHabitModel } from '@/domain/tests/mock-habit'
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
-import { Validation } from '@/presentation/protocols/validation'
 import { mockCreateHabit } from '@/presentation/tests/mock-habit'
 import { mockValidation } from '@/presentation/tests/mock-validation'
 import { AddHabitController } from './add-habit-controller'
-import { badRequest, Controller, CreateHabit, CreateHabitParams, serverError, success } from './add-habit-controller-protocols'
+import { Controller, Validation, CreateHabit, CreateHabitParams, serverError, badRequest, success } from './add-habit-controller-protocols'
+import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: AddHabitController
@@ -24,6 +24,14 @@ const mockControllerRequest = (): Controller.Request<CreateHabitParams> => ({
 })
 
 describe('CreateHabit Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('Should call CreateHabitUseCase with correct values', async () => {
     const { sut, createHabitStub } = makeSut()
     const createSpy = jest.spyOn(createHabitStub, 'create')
