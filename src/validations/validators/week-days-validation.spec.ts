@@ -1,3 +1,4 @@
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 import { WeekDaysValidator } from '@/validations/protocols/week-days-validator'
 import { WeekDaysValidation } from './week-days-validation'
 
@@ -31,5 +32,12 @@ describe('WeekDays Validation', () => {
     const input = makeInput()
     sut.validate(input)
     expect(isValidSpy).toHaveBeenCalledWith(input.weekDays)
+  })
+
+  test('Should return a error if validation fails', () => {
+    const { sut, weekDaysValidatorStub } = makeSut()
+    jest.spyOn(weekDaysValidatorStub, 'isValid').mockReturnValue(false)
+    const error = sut.validate(makeInput())
+    expect(error).toEqual(new InvalidParamError('weekDays'))
   })
 })
