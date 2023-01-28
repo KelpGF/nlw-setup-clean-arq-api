@@ -1,15 +1,15 @@
-import { MissingParamError } from '@/presentation/errors/missing-param-error'
+import { Validation } from '@/presentation/protocols/validation'
 import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, badRequest, serverError } from './add-habit-controller-protocols'
 
 export class AddHabitController implements Controller<HabitModel> {
-  constructor (private readonly createHabit: CreateHabit) {}
+  constructor (
+    private readonly createHabit: CreateHabit, private readonly validateBody: Validation
+  ) {}
 
   async handle (request: Controller.Request<CreateHabitParams>) {
     try {
-      const requiredFields = ['title', 'weekDays']
-      for (const field of requiredFields) {
-        if (!request.body?.[field]) return badRequest(new MissingParamError(field))
-      }
+      const error = this.validateBody.validate(request.body)
+      if (error) return badRequest(error)
 
       const habit = await this.createHabit.create(request.body as CreateHabitParams)
       return success<HabitModel>(habit)
