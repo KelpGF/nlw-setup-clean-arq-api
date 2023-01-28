@@ -1,5 +1,5 @@
 import { ServerError } from '@/presentation/errors/server-error'
-import { Controller } from '../protocols/controller'
+import { Controller } from '@/presentation/protocols/controller'
 import { ControllerResponsesCodeEnum } from './controller-responses-codes-enum'
 
 export function success<T> (body: T): Controller.Response<T> {

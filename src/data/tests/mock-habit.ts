@@ -1,6 +1,7 @@
 import { CreateHabitParams } from '@/domain/usecases/habits/create-habit'
 import { InsertHabitRepository } from '@/data/protocols/db/habit/insert-habit-repository'
-import { FindHabitByIdRepository, HabitModel } from '../usecases/habits/db-create-habit-protocols'
+import { FindHabitByIdRepository } from '@/data/protocols/db/habit/find-habit-by-id-repository'
+import { HabitModel } from '@/domain/models/habits'
 import { mockHabitModel } from '@/domain/tests/mock-habit'
 
 export const mockInsertHabitRepository = (): InsertHabitRepository => {

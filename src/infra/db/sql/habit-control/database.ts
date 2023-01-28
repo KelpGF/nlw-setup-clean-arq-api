@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import { SqlHelper } from '../helpers/sql-helper'
+import { SqlHelper } from './../helpers/sql-helper'
 
 export const dbHabit = new SqlHelper(
   'habits_control',

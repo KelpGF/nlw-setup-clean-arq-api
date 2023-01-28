@@ -1,6 +1,6 @@
 import { ModelStatic } from 'sequelize'
 import { SqlHelper } from '@/infra/db/sql/helpers/sql-helper'
-import { makeTables } from '../database'
+import { makeTables } from './../database'
 import { HabitSqlRepository } from './habit-sql-repository'
 import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
 
