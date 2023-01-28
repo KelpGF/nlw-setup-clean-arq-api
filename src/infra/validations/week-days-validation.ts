@@ -2,6 +2,7 @@ import { WeekDaysValidator } from '@/validations/protocols/week-days-validator'
 
 export class WeekDaysValidation implements WeekDaysValidator {
   isValid (weekDays: number[]): boolean {
+    if (weekDays.length > 7) return false
     return !weekDays.some(this.isInvalidNumber)
   }
 
