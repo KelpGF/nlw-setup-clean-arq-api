@@ -34,7 +34,7 @@ describe('WeekDays Validation', () => {
     expect(isValidSpy).toHaveBeenCalledWith(input.weekDays)
   })
 
-  test('Should return a error if validation fails', () => {
+  test('Should return a invalid param error if validation fails', () => {
     const { sut, weekDaysValidatorStub } = makeSut()
     jest.spyOn(weekDaysValidatorStub, 'isValid').mockReturnValue(false)
     const error = sut.validate(makeInput())
@@ -45,5 +45,12 @@ describe('WeekDays Validation', () => {
     const { sut } = makeSut()
     const error = sut.validate(makeInput())
     expect(error).toBeNull()
+  })
+
+  test('Should return a invalid param error if validation throws', () => {
+    const { sut, weekDaysValidatorStub } = makeSut()
+    jest.spyOn(weekDaysValidatorStub, 'isValid').mockImplementationOnce(() => { throw new Error() })
+    const error = sut.validate(makeInput())
+    expect(error).toEqual(new InvalidParamError('weekDays'))
   })
 })
