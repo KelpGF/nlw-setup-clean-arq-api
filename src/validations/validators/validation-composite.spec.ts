@@ -14,9 +14,16 @@ const makeSut = (): SutType => {
 }
 
 describe('ValidationComposite', () => {
+  test('Should return an error if any validation fails', () => {
+    const { sut, validations } = makeSut()
+    jest.spyOn(validations[0], 'validate').mockReturnValue(new Error())
+    const error = sut.validate({})
+    expect(error).toEqual(new Error())
+  })
+
   test('Should return null if validation success', () => {
     const { sut } = makeSut()
-    const error = sut.validate({ any_field: 'any_value' })
+    const error = sut.validate({})
     expect(error).toBeNull()
   })
 })
