@@ -3,12 +3,12 @@ import { WeekDaysValidator } from '@/validations/protocols/week-days-validator'
 export class WeekDaysValidation implements WeekDaysValidator {
   isValid (weekDays: number[]): boolean {
     if (weekDays.length > 7) return false
-    return !weekDays.some(this.isInvalidNumber)
+    return weekDays.every(this.isValidNumber)
   }
 
-  private isInvalidNumber (val: number | string): boolean {
+  private isValidNumber (val: number | string): boolean {
     const weekDay = Number(val)
-    if (Number.isNaN(weekDay)) return true
-    return !(weekDay >= 0 && weekDay <= 6)
+    if (Number.isNaN(weekDay)) return false
+    return weekDay >= 0 && weekDay <= 6
   }
 }
