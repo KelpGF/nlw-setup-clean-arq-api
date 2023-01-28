@@ -1,10 +1,10 @@
-import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
+import { mockCreateHabitParams, mockHabitModel } from '@/domain/tests/mock-habit'
 import { MissingParamError } from '@/presentation/errors/missing-param-error'
 import { Validation } from '@/presentation/protocols/validation'
 import { mockCreateHabit } from '@/presentation/tests/mock-habit'
 import { mockValidation } from '@/presentation/tests/mock-validation'
 import { AddHabitController } from './add-habit-controller'
-import { badRequest, Controller, CreateHabit, CreateHabitParams, serverError } from './add-habit-controller-protocols'
+import { badRequest, Controller, CreateHabit, CreateHabitParams, serverError, success } from './add-habit-controller-protocols'
 
 type SutTypes = {
   sut: AddHabitController
@@ -62,5 +62,11 @@ describe('CreateHabit Controller', () => {
     const httpResponse = await sut.handle(mockControllerRequest())
 
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return a success with accessToken on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(mockControllerRequest())
+    expect(httpResponse).toEqual(success(mockHabitModel()))
   })
 })
