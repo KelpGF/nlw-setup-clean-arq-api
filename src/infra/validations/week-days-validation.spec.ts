@@ -26,4 +26,10 @@ describe('WeekDays Validation', () => {
     const isValid = sut.isValid([0, 1, []] as unknown as number[])
     expect(isValid).toBe(false)
   })
+
+  test('Should return true if success', () => {
+    const sut = makeSut()
+    const isValid = sut.isValid([1, 2, 5])
+    expect(isValid).toBe(true)
+  })
 })
