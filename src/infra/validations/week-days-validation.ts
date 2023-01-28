@@ -7,9 +7,8 @@ export class WeekDaysValidation implements WeekDaysValidator {
     return weekDays.every(this.isValidNumber)
   }
 
-  private isValidNumber (val: number | string): boolean {
-    const weekDay = Number(val)
-    if (Number.isNaN(weekDay)) return false
+  private isValidNumber (weekDay: number): boolean {
+    if (!Number.isInteger(weekDay)) return false
     return weekDay >= 0 && weekDay <= 6
   }
 
