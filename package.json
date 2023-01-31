@@ -6,6 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint 'src/**/*' --fix --no-error-on-unmatched-pattern",
+    "dev": "tsx --watch src/main/server.ts",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
@@ -37,6 +38,7 @@
     "lint-staged": "^13.1.0",
     "mockdate": "^3.0.5",
     "ts-jest": "^29.0.5",
+    "tsx": "^3.12.2",
     "typescript": "^4.9.4"
   },
   "engines": {
