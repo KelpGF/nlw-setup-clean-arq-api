@@ -8,6 +8,7 @@
     "lint": "eslint 'src/**/*' --fix --no-error-on-unmatched-pattern",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:ci": "npm test -- --coverage"
   },
