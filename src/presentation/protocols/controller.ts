@@ -1,5 +1,5 @@
-export interface Controller<T> {
-  handle: (request: Controller.Request) => Promise<Controller.Response<T | Error | null>>
+export interface Controller {
+  handle: (request: Controller.Request) => Promise<Controller.Response>
 }
 
 export namespace Controller {
@@ -8,8 +8,8 @@ export namespace Controller {
     params?: P
     headers?: H
   }
-  export type Response<T> = {
-    body: T
+  export type Response<T = any> = {
+    body?: T
     code: number
   }
 }
