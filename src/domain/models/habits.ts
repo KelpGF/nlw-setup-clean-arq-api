@@ -4,3 +4,8 @@ export interface HabitModel {
   weekDays: number[]
   created_at: Date
 }
+
+export type CreateHabitModel = {
+  title: string
+  weekDays: Array<number | string>
+}
