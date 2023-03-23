@@ -10,8 +10,10 @@ export class HabitSqlRepository implements InsertHabitRepository, FindHabitByIdR
   }
 
   async findById (habitId: string): Promise<HabitModel> {
-    const habit = await HabitTableModel.findOne({ where: { id: Number(habitId) } }) as any
-    const habitWeekDays = await HabitWeekDaysTableModel.findAll({ where: { habit_id: habitId } })
+    const [habit, habitWeekDays] = await Promise.all([
+      await HabitTableModel.findByPk(Number(habitId)) as HabitTableModel,
+      await HabitWeekDaysTableModel.findAll({ where: { habit_id: habitId } })
+    ])
 
     return {
       id: habit.id,
