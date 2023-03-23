@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "lint": "eslint 'src/**/*' --fix --no-error-on-unmatched-pattern",
     "dev": "tsx --watch src/main/server.ts",
-    "test": "jest --passWithNoTests --noStackTrace --runInBand",
+    "test": "jest --passWithNoTests --noStackTrace --runInBand --detectOpenHandles",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:verbose": "jest --passWithNoTests --runInBand",
