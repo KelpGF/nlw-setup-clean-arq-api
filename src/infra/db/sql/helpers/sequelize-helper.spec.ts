@@ -9,17 +9,17 @@ describe('Sequelize Helper', () => {
     expect(result).toBeInstanceOf(Sequelize)
   })
 
-  test('Should SequelizeInitDatabase return a new Sequelize', () => {
+  test('Should SequelizeInitDatabase return a new Sequelize', async () => {
     const sut = SequelizeInitDatabase
-    const result = sut(env.HABIT_CONTROL_TEST_DB_CONNECTION_STRING, [])
+    const result = await sut(env.HABIT_CONTROL_TEST_DB_CONNECTION_STRING, [])
     expect(result).toBeInstanceOf(Sequelize)
   })
 
-  test('Should SequelizeInitDatabase call generate models with correct value', () => {
+  test('Should SequelizeInitDatabase call generate models with correct value', async () => {
     const sut = SequelizeInitDatabase
-    const FnGenerateModelStub = { exec: (sequelize: Sequelize) => {} }
+    const FnGenerateModelStub = { exec: async (sequelize: Sequelize) => {} }
     const FnGenerateModelSpy = jest.spyOn(FnGenerateModelStub, 'exec')
-    const result = sut(env.HABIT_CONTROL_TEST_DB_CONNECTION_STRING, [FnGenerateModelStub.exec])
+    const result = await sut(env.HABIT_CONTROL_TEST_DB_CONNECTION_STRING, [FnGenerateModelStub.exec])
     expect(FnGenerateModelSpy).toHaveBeenCalledWith(result)
   })
 })

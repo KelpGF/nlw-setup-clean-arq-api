@@ -1,10 +1,14 @@
 import { Sequelize } from 'sequelize'
-import { FnGenerateModel } from '../habit-control/models/types'
+
+export type FnInitModel = (sequelize: Sequelize) => Promise<void>
 
 export const SequelizeNewConnection = (uri: string): Sequelize => new Sequelize(uri, { dialect: 'mysql', logging: false })
 
-export const SequelizeInitDatabase = (url: string, modelsGenerator: FnGenerateModel[]): Sequelize => {
-  const db = SequelizeNewConnection(url)
-  modelsGenerator.forEach((fn) => { fn(db) })
-  return db
+export const SequelizeInitDatabase = async (url: string, models: FnInitModel[]): Promise<Sequelize> => {
+  const sequelize = SequelizeNewConnection(url)
+
+  await Promise.all(models.map(async (fn) => fn(sequelize))) // eslint-disable-line
+
+  await sequelize.authenticate()
+  return sequelize
 }
