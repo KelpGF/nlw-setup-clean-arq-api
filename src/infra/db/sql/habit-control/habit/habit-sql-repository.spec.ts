@@ -1,37 +1,27 @@
-import { ModelStatic } from 'sequelize'
-import { SqlHelper } from '@/infra/db/sql/helpers/sql-helper'
-import { makeTables } from './../database'
+import { Sequelize } from 'sequelize'
 import { HabitSqlRepository } from './habit-sql-repository'
 import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
+import { HabitTableModel, HabitWeekDaysTableModel, initHabitTableModel, initHabitWeekDaysTableModel } from '../models'
+import { SequelizeInitDatabase } from '../../helpers/sequelize-helper'
+import env from '@/main/config/env'
 
-let sqlDB: SqlHelper
-let habitTable: ModelStatic<any>
-let habitWeekDaysTable: ModelStatic<any>
+let sqlDB: Sequelize
 
-const makeSut = (): HabitSqlRepository => new HabitSqlRepository(sqlDB)
+const makeSut = (): HabitSqlRepository => new HabitSqlRepository()
 
 describe('Habit Sql Repository', () => {
   beforeAll(async () => {
-    sqlDB = new SqlHelper(
-      'habits_control_test',
-      'localhost',
-      3306,
-      'root',
-      'password',
-      { dialect: 'mysql' }
-    )
-    makeTables(sqlDB)
+    const modelsGenerator = [initHabitTableModel, initHabitWeekDaysTableModel]
+    sqlDB = await SequelizeInitDatabase(env.HABIT_CONTROL_TEST_DB_CONNECTION_STRING, modelsGenerator)
   })
 
   beforeEach(async () => {
-    habitTable = await sqlDB.getTable('habits')
-    await habitTable.destroy({ where: {} })
-    habitWeekDaysTable = await sqlDB.getTable('habit_week_days')
-    await habitWeekDaysTable.destroy({ where: {} })
+    await HabitTableModel.destroy({ where: {} })
+    await HabitWeekDaysTableModel.destroy({ where: {} })
   })
 
   afterAll(async () => {
-    await sqlDB.disconnect()
+    await sqlDB.close()
   })
 
   test('Should return a habit model on findById success', async () => {
@@ -50,8 +40,8 @@ describe('Habit Sql Repository', () => {
     const sut = makeSut()
     const createHabitParams = mockCreateHabitParams()
     const habitId = await sut.insert(createHabitParams)
-    const habits = await habitTable.findAll()
-    const habitWeekDays = await habitWeekDaysTable.findAll({ where: { habit_id: Number(habitId) } })
+    const habits = await HabitTableModel.findAll()
+    const habitWeekDays = await HabitWeekDaysTableModel.findAll({ where: { habit_id: Number(habitId) } })
     expect(habits.length).toBe(1)
     expect(String(habits[0].id)).toBe(habitId)
     expect(habits[0].title).toBe(createHabitParams.title)
