@@ -5,7 +5,7 @@ import { HabitWeekDaysTableModel } from '../models/habit-week-days-table-model'
 export class HabitSqlRepository implements InsertHabitRepository, FindHabitByIdRepository {
   async insert (insertHabitParams: CreateHabitParams): Promise<string> {
     const { id: habitId } = await HabitTableModel.create({ title: insertHabitParams.title })
-    await Promise.all(insertHabitParams.weekDays.map((weekDay) => HabitWeekDaysTableModel.create({ habit_id: habitId, week_day: weekDay }))) // eslint-disable-line
+    await HabitWeekDaysTableModel.bulkCreate(insertHabitParams.weekDays.map((weekDay) => ({ habit_id: habitId, week_day: weekDay })))
     return String(habitId)
   }
 

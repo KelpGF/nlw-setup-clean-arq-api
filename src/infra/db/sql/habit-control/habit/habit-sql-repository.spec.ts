@@ -28,9 +28,7 @@ describe('Habit Sql Repository', () => {
     const sut = makeSut()
     const createHabitParams = mockCreateHabitParams()
     const { id: habitId } = await HabitTableModel.create(createHabitParams)
-    createHabitParams.weekDays.forEach(async (weekDay) => {
-      await HabitWeekDaysTableModel.create({ habit_id: habitId, week_day: weekDay })
-    })
+    await HabitWeekDaysTableModel.bulkCreate(createHabitParams.weekDays.map((weekDay) => ({ habit_id: habitId, week_day: weekDay })))
     const habit = await sut.findById(habitId)
     expect(habit).toBeTruthy()
     expect(habit.id).toBeTruthy()
