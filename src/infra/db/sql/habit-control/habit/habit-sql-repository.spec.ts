@@ -40,8 +40,10 @@ describe('Habit Sql Repository', () => {
     const sut = makeSut()
     const createHabitParams = mockCreateHabitParams()
     const habitId = await sut.insert(createHabitParams)
-    const habit = await HabitTableModel.findByPk(habitId) as HabitTableModel
-    const habitWeekDays = await HabitWeekDaysTableModel.findAll({ where: { habit_id: Number(habitId) } })
+    const [habit, habitWeekDays] = await Promise.all([
+      await HabitTableModel.findByPk(habitId) as HabitTableModel,
+      await HabitWeekDaysTableModel.findAll({ where: { habit_id: Number(habitId) } })
+    ])
     expect(habit).toBeTruthy()
     expect(habit.id).toBeTruthy()
     expect(habit.id).toBe(Number(habitId))
