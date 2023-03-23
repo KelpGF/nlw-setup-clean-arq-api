@@ -1,5 +1,5 @@
-import { CreateHabitParams } from '@/domain/usecases/habits/create-habit'
+import { CreateHabitDTO } from '@/domain/dtos/habit-dto'
 
 export interface InsertHabitRepository {
-  insert: (insertHabitParams: CreateHabitParams) => Promise<string>
+  insert: (insertHabitParams: CreateHabitDTO) => Promise<string>
 }

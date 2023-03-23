@@ -1,5 +1,5 @@
-import { HabitModel } from '@/domain/models/habits'
+import { HabitEntity } from '@/domain/entities/habit-entity'
 
 export interface FindHabitByIdRepository {
-  findById: (habitId: string) => Promise<HabitModel>
+  findById: (habitId: string) => Promise<HabitEntity>
 }

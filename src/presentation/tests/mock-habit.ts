@@ -1,16 +1,17 @@
-import { HabitModel } from '@/domain/models/habits'
-import { mockCreateHabitModel, mockHabitModel } from '@/domain/tests/mock-habit'
-import { CreateHabit, CreateHabitParams } from '@/domain/usecases/habits/create-habit'
-import { AddHabitControllerDTO } from '../dtos/add-habit-controller-dto'
+import { CreateHabitDTO } from '@/domain/dtos/habit-dto'
+import { HabitEntity } from '@/domain/entities/habit-entity'
+import { CreateHabitUseCase } from '@/domain/usecases/habits/create-habit'
+import { mockCreateHabitModel, mockHabitEntity } from '@/domain/tests/mock-habit'
+import { AddHabitControllerDTO } from '@/presentation/dtos/add-habit-controller-dto'
 
-export const mockCreateHabit = (): CreateHabit => {
-  class CreateHabitStub implements CreateHabit {
-    async create (createHabitParams: CreateHabitParams): Promise<HabitModel> {
-      return mockHabitModel()
+export const mockCreateHabit = (): CreateHabitUseCase => {
+  class CreateHabitUseCaseStub implements CreateHabitUseCase {
+    async execute (dto: CreateHabitDTO): Promise<HabitEntity> {
+      return mockHabitEntity()
     }
   }
 
-  return new CreateHabitStub()
+  return new CreateHabitUseCaseStub()
 }
 
 export const mockCreateControllerHabitBodyDTO = (): AddHabitControllerDTO.BodyDTO => {

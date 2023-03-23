@@ -3,7 +3,7 @@ import { FnInitModel } from '../../helpers/sequelize-helper'
 
 export class HabitWeekDaysTableModel extends Model {
   public id!: string
-  public habit_id!: number
+  public habit_id!: string
   public week_day!: number
 }
 

@@ -1,5 +1,5 @@
 import { mockFindHabitByIdRepository, mockInsertHabitRepository } from '@/data/tests/mock-habit'
-import { mockCreateHabitParams, mockHabitModel } from '@/domain/tests/mock-habit'
+import { mockCreateHabitDTO, mockHabitEntity } from '@/domain/tests/mock-habit'
 import { InsertHabitRepository, FindHabitByIdRepository } from './db-create-habit-protocols'
 import { DbCreateHabit } from './db-create-habit'
 import MockDate from 'mockdate'
@@ -30,35 +30,35 @@ describe('DbCreateHabit UseCase', () => {
   test('Should call InsertHabitRepository with correct values', async () => {
     const { sut, insertHabitRepositoryStub } = makeSut()
     const createSpy = jest.spyOn(insertHabitRepositoryStub, 'insert')
-    const createHabitParams = mockCreateHabitParams()
-    await sut.create(createHabitParams)
-    expect(createSpy).toHaveBeenCalledWith(createHabitParams)
+    const createHabitDTO = mockCreateHabitDTO()
+    await sut.execute(createHabitDTO)
+    expect(createSpy).toHaveBeenCalledWith(createHabitDTO)
   })
 
   test('Should throw if InsertHabitRepository throws', async () => {
     const { sut, insertHabitRepositoryStub } = makeSut()
     jest.spyOn(insertHabitRepositoryStub, 'insert').mockRejectedValueOnce(new Error())
-    const promise = sut.create(mockCreateHabitParams())
+    const promise = sut.execute(mockCreateHabitDTO())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should call FindHabitByIdRepository with correct id', async () => {
     const { sut, findHabitByIdRepositoryStub } = makeSut()
     const findByIdSpy = jest.spyOn(findHabitByIdRepositoryStub, 'findById')
-    await sut.create(mockCreateHabitParams())
-    expect(findByIdSpy).toHaveBeenCalledWith(mockHabitModel().id)
+    await sut.execute(mockCreateHabitDTO())
+    expect(findByIdSpy).toHaveBeenCalledWith(mockHabitEntity().id)
   })
 
   test('Should throw if FindHabitByIdRepository throws', async () => {
     const { sut, findHabitByIdRepositoryStub } = makeSut()
     jest.spyOn(findHabitByIdRepositoryStub, 'findById').mockRejectedValueOnce(new Error())
-    const promise = sut.create(mockCreateHabitParams())
+    const promise = sut.execute(mockCreateHabitDTO())
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return a Habit on success', async () => {
+  test('Should return a Habit Entity on success', async () => {
     const { sut } = makeSut()
-    const habit = await sut.create(mockCreateHabitParams())
-    expect(habit).toEqual(mockHabitModel())
+    const habit = await sut.execute(mockCreateHabitDTO())
+    expect(habit).toEqual(mockHabitEntity())
   })
 })

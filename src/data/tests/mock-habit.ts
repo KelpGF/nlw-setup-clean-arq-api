@@ -1,12 +1,12 @@
-import { CreateHabitParams } from '@/domain/usecases/habits/create-habit'
 import { InsertHabitRepository } from '@/data/protocols/db/habit/insert-habit-repository'
 import { FindHabitByIdRepository } from '@/data/protocols/db/habit/find-habit-by-id-repository'
-import { HabitModel } from '@/domain/models/habits'
-import { mockHabitModel } from '@/domain/tests/mock-habit'
+import { mockHabitEntity } from '@/domain/tests/mock-habit'
+import { HabitEntity } from '@/domain/entities/habit-entity'
+import { CreateHabitDTO } from '../usecases/habits/db-create-habit-protocols'
 
 export const mockInsertHabitRepository = (): InsertHabitRepository => {
   class InsertHabitRepositoryStub implements InsertHabitRepository {
-    async insert (insertHabitParams: CreateHabitParams): Promise<string> {
+    async insert (insertHabitParams: CreateHabitDTO): Promise<string> {
       return 'any_habit_id'
     }
   }
@@ -16,8 +16,8 @@ export const mockInsertHabitRepository = (): InsertHabitRepository => {
 
 export const mockFindHabitByIdRepository = (): FindHabitByIdRepository => {
   class FindHabitByIdRepositoryStub implements FindHabitByIdRepository {
-    async findById (habitId: string): Promise<HabitModel> {
-      return mockHabitModel()
+    async findById (habitId: string): Promise<HabitEntity> {
+      return mockHabitEntity()
     }
   }
 

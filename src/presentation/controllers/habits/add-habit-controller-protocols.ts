@@ -1,5 +1,6 @@
 export * from '@/domain/models/habits'
 export * from '@/domain/usecases/habits/create-habit'
+export * from '@/domain/dtos/habit-dto'
 export * from '@/presentation/helpers/controller-responses-helpers'
 export * from '@/presentation/dtos/add-habit-controller-dto'
 export * from '@/presentation/protocols/controller'

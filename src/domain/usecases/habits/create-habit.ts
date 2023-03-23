@@ -1,10 +1,6 @@
-import { HabitModel } from '@/domain/models/habits'
+import { CreateHabitDTO } from '@/domain/dtos/habit-dto'
+import { HabitEntity } from '@/domain/entities/habit-entity'
 
-export type CreateHabitParams = {
-  title: string
-  weekDays: number[]
-}
-
-export interface CreateHabit {
-  create: (createHabitParams: CreateHabitParams) => Promise<HabitModel>
+export interface CreateHabitUseCase {
+  execute: (dto: CreateHabitDTO) => Promise<HabitEntity>
 }

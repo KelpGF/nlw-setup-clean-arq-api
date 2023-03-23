@@ -1,9 +1,10 @@
 import { Sequelize } from 'sequelize'
 import { HabitSqlRepository } from './habit-sql-repository'
-import { mockCreateHabitParams } from '@/domain/tests/mock-habit'
+import { mockCreateHabitDTO } from '@/domain/tests/mock-habit'
 import { HabitTableModel, HabitWeekDaysTableModel, initHabitTableModel, initHabitWeekDaysTableModel } from '../models'
 import { SequelizeInitDatabase } from '../../helpers/sequelize-helper'
 import env from '@/main/config/env'
+import { HabitEntity } from '@/domain/entities/habit-entity'
 
 let sqlDB: Sequelize
 
@@ -24,22 +25,23 @@ describe('Habit Sql Repository', () => {
     await sqlDB.close()
   })
 
-  test('Should return a habit model on findById success', async () => {
+  test('Should return a habit entity on findById success', async () => {
     const sut = makeSut()
-    const createHabitParams = mockCreateHabitParams()
-    const { id: habitId } = await HabitTableModel.create(createHabitParams)
-    await HabitWeekDaysTableModel.bulkCreate(createHabitParams.weekDays.map((weekDay) => ({ habit_id: habitId, week_day: weekDay })))
+    const createHabitDTO = mockCreateHabitDTO()
+    const { id: habitId } = await HabitTableModel.create({ title: createHabitDTO.title })
+    await HabitWeekDaysTableModel.bulkCreate(createHabitDTO.weekDays.map((weekDay) => ({ habit_id: habitId, week_day: weekDay })))
     const habit = await sut.findById(habitId)
     expect(habit).toBeTruthy()
+    expect(habit).toBeInstanceOf(HabitEntity)
     expect(habit.id).toBeTruthy()
-    expect(habit.title).toBe(createHabitParams.title)
-    expect(habit.weekDays).toEqual(createHabitParams.weekDays)
+    expect(habit.title).toBe(createHabitDTO.title)
+    expect(habit.weekDays.map(day => day.weekDay)).toEqual(createHabitDTO.weekDays)
   })
 
   test('Should create a habit and your week days on insert success', async () => {
     const sut = makeSut()
-    const createHabitParams = mockCreateHabitParams()
-    const habitId = await sut.insert(createHabitParams)
+    const createHabitDTO = mockCreateHabitDTO()
+    const habitId = await sut.insert(createHabitDTO)
     const [habit, habitWeekDays] = await Promise.all([
       await HabitTableModel.findByPk(habitId) as HabitTableModel,
       await HabitWeekDaysTableModel.findAll({ where: { habit_id: Number(habitId) } })
@@ -47,8 +49,8 @@ describe('Habit Sql Repository', () => {
     expect(habit).toBeTruthy()
     expect(habit.id).toBeTruthy()
     expect(habit.id).toBe(Number(habitId))
-    expect(habit.title).toBe(createHabitParams.title)
+    expect(habit.title).toBe(createHabitDTO.title)
     expect(habitWeekDays.map((weekDayData) => ({ habit_id: weekDayData.habit_id, week_day: weekDayData.week_day })))
-      .toEqual(createHabitParams.weekDays.map((weekDay) => ({ habit_id: Number(habitId), week_day: weekDay })))
+      .toEqual(createHabitDTO.weekDays.map((weekDay) => ({ habit_id: Number(habitId), week_day: weekDay })))
   })
 })
