@@ -3,7 +3,7 @@ import { MissingParamError } from '@/presentation/errors/missing-param-error'
 import { mockCreateHabit } from '@/presentation/tests/mock-habit'
 import { mockValidation } from '@/presentation/tests/mock-validation'
 import { AddHabitController } from './add-habit-controller'
-import { Controller, Validation, CreateHabit, CreateHabitParams, serverError, badRequest, success } from './add-habit-controller-protocols'
+import { Validation, CreateHabit, serverError, badRequest, success, AddHabitControllerDto } from './add-habit-controller-protocols'
 import MockDate from 'mockdate'
 
 type SutTypes = {
@@ -19,7 +19,7 @@ const makeSut = (): SutTypes => {
   return { sut, createHabitStub, validationStub }
 }
 
-const mockControllerRequest = (): Controller.Request<CreateHabitParams> => ({
+const mockControllerRequest = (): AddHabitControllerDto.Input => ({
   body: mockCreateHabitParams()
 })
 

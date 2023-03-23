@@ -1,11 +1,11 @@
-import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, badRequest, serverError, Validation } from './add-habit-controller-protocols'
+import { HabitModel, CreateHabit, CreateHabitParams, success, Controller, badRequest, serverError, Validation, AddHabitControllerDto } from './add-habit-controller-protocols'
 
 export class AddHabitController implements Controller {
   constructor (
     private readonly createHabit: CreateHabit, private readonly validateBody: Validation
   ) {}
 
-  async handle (request: Controller.Request<CreateHabitParams>): Promise<Controller.Response<HabitModel | Error>> {
+  async handle (request: AddHabitControllerDto.Input): AddHabitControllerDto.Output {
     try {
       const requestBody = request.body as CreateHabitParams
       const error = this.validateBody.validate(requestBody)
