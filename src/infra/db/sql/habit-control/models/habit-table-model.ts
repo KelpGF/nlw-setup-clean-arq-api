@@ -5,12 +5,6 @@ export class HabitTableModel extends Model {
   public id!: string
   public title!: string
   public readonly created_at!: Date
-
-  // public readonly habitWeekDays?: HabitWeekDaysTableModel[]
-
-  // public static associations: {
-  //   habitWeekDays: Association<HabitTableModel, HabitWeekDaysTableModel>
-  // }
 }
 
 export const initHabitTableModel: FnInitModel = async (sequelize: Sequelize): Promise<void> => {
@@ -27,7 +21,7 @@ export const initHabitTableModel: FnInitModel = async (sequelize: Sequelize): Pr
       },
       created_at: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: DataTypes.NOW
       }
     },
     {
@@ -37,12 +31,5 @@ export const initHabitTableModel: FnInitModel = async (sequelize: Sequelize): Pr
       modelName: 'HabitTableModel'
     }
   )
-
-  // HabitTableModel.hasMany(HabitWeekDaysTableModel, {
-  //   sourceKey: 'id',
-  //   foreignKey: 'habit_id',
-  //   as: 'habits'
-  // })
-
   await Promise.resolve()
 }

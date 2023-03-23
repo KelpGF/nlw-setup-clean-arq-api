@@ -5,12 +5,6 @@ export class HabitWeekDaysTableModel extends Model {
   public id!: string
   public habit_id!: number
   public week_day!: number
-
-  // public readonly habit?: HabitTableModel
-
-  // public static associations: {
-  //   habit: Association<HabitWeekDaysTableModel, HabitTableModel>
-  // }
 }
 
 export const initHabitWeekDaysTableModel: FnInitModel = async (sequelize: Sequelize): Promise<void> => {
@@ -41,12 +35,5 @@ export const initHabitWeekDaysTableModel: FnInitModel = async (sequelize: Sequel
       modelName: 'HabitWeekDaysTableModel'
     }
   )
-
-  // HabitWeekDaysTableModel.belongsTo(HabitTableModel, {
-  //   targetKey: 'id',
-  //   foreignKey: 'habit_id',
-  //   as: 'habits'
-  // })
-
   await Promise.resolve()
 }
