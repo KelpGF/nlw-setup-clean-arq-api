@@ -23,7 +23,7 @@ const makeSut = (): SutType => {
   return { sut, weekDaysValidatorStub }
 }
 
-const makeInput = () => ({ weekDays: [1, 3] })
+const makeInput = (): { weekDays: number[] } => ({ weekDays: [1, 3] })
 
 describe('WeekDays Validation', () => {
   test('Should call WeekDaysValidator with correct value', () => {
